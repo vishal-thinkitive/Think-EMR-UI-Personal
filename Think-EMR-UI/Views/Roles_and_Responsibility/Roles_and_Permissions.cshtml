@@ -1,0 +1,131 @@
+﻿@using ThinkEMR_Care.DataAccess.Models.Roles_and_Responsibility;
+@model List<RoleType>
+@{
+    List<SelectListItem> roles = ViewData["roleItems"] as List<SelectListItem>;
+    List<RoleType> rolesTypes = ViewData["roleTypes"] as List<RoleType>;
+}
+
+
+
+@if (rolesTypes != null)
+{
+    <div class="container-fluid">
+        <div>
+            <h4>Roles and Responsibility</h4>
+        </div>
+        <div class="text-end">
+            <button id="addNewRole" class=" btn btn-sm btn-primary">Add New Role</button>
+
+        </div>
+        <div>
+            @foreach (var roleType in rolesTypes)
+            {
+                <h5>@roleType.RoleTypeName</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="table-primary">Permission</th>
+                            <th class="table-primary">Description</th>
+                            <th class="table-primary">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var permission in roleType.Permissions)
+                        {
+                            <tr class="table-secondary">
+                                <td>@permission.PermissionName</td>
+                                <td>@permission.PermissionDescription</td>
+                                <td>@permission.PermissionStatus</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            }
+        </div>
+    </div>
+}
+else
+{
+    <p>No role types found.</p>
+}
+
+<div class="modal fade" id="RoleModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="text-info modal-title">Add New Role</h3>
+                <button class="close text-danger" data-bs-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    <div class="form-group">
+                        <label>Select Role Type</label>
+                        <select id="SelectedRole" class="form-select">
+                            <option value="">Select Role Type</option>
+                            @foreach (var item in roles)
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>RoleName</label>
+                        <input type="text" placeholder="Enter Role Name" class="form-control" id="roleName" />
+                    </div>
+                    @*     <div>
+                    <label>From API</label>
+                    <select class="form-select" id="permissions">
+                    </select>
+                    </div>*@
+
+                    <div class="form-group multiselect">
+                        <label>Permissions</label><br />
+                        <div class="select-box" id="select-box">Select items</div>
+                        <div class="options" id="options">
+                            
+                        </div>
+                    </div>
+
+                    @*<div class="form-group multiselect">
+                    <label>Permissions</label><br />
+                    <div class="select-box" id="select-box">Select items</div>
+
+                    <div class="options" id="options">
+                    <label>
+                    <input type="checkbox" value="17">Create Edit View patient
+
+                    </label>
+                    <label>
+                    <input type="checkbox" value="18">Can View Patient
+
+                    </label>
+                    <label>
+                    <input type="checkbox" value="19">View Patient Lab
+
+                    </label>
+                    <label>
+                    <input type="checkbox" value="20">View All Patient
+
+                    </label>
+                    </div>
+                    </div>*@
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" id="addRoleWithPermissions">Save</button>
+                <button class="btn btn-danger btn-default" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="~/lib/jquery/dist/jquery.min.map"></a>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/userssettings.js"></script>
+<link href="~/css/users.css" rel="stylesheet" />
+
+
+
+
